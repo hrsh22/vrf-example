@@ -4,7 +4,7 @@ A starter kit demonstrating the integration of Randamu's randomness solutions fo
 
 1. **Random Number Generator**: Using the Randamu Solidity library
 2. **Coin Flip**: Using the Randamu JavaScript library
-3. **Swags Roulette**: Using the Randamu Solidity library
+3. **Schwag Roulette**: Using the Randamu Solidity library
 
 ## 📁 Project Structure
 
@@ -18,7 +18,7 @@ vrf-example/
 │   ├── randomnumber/               # Random number generator demo
 │   │   ├── page.tsx                # Main random number page
 │   │   └── header.tsx              # Header component
-│   ├── swagsroulette/              # Swags Roulette demo
+│   ├── schwagroulette/              # Schwag Roulette demo
 │   │   ├── page.tsx                # Spin-the-wheel main page
 │   │   ├── header.tsx              # Header component
 │   │   ├── components/
@@ -77,8 +77,8 @@ Located in `app/coinflip/page.tsx`, this demo uses the Randamu JavaScript librar
 - Interactive UI
 - Real-time updates
 
-### 3. Swags Roulette
-Located in `app/swagsroulette/page.tsx`, this demo showcases a spin-the-wheel experience that uses on-chain verifiable randomness. Features:
+### 3. Schwag Roulette
+Located in `app/schwagroulette/page.tsx`, this demo showcases a spin-the-wheel experience that uses on-chain verifiable randomness. Features:
 - Wheel UI with prize segments and assets
 - On-chain randomness via VRF
 - Win/Loss modals

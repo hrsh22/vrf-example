@@ -13,7 +13,7 @@ import { Randomness } from 'randomness-js';
 import { ethers, getBytes } from 'ethers';
 import { waitForTransactionReceipt } from '@wagmi/core';
 
-export default function SwagRoulette() {
+export default function SchwagRoulette() {
     const { isConnected } = useAccount();
     const [winner, setWinner] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -199,10 +199,10 @@ export default function SwagRoulette() {
                                         Provably Fair
                                     </div>
                                     <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-                                        Swags Roulette
+                                        Schwag Roulette
                                     </h1>
                                     <p className="text-sm md:text-base lg:text-lg text-white/80 max-w-xl">
-                                        Spin the wheel and try your luck to win amazing swags. Each spin uses on-chain randomness to keep things fair and transparent.
+                                        Spin the wheel and try your luck to win amazing schwags. Each spin uses on-chain randomness to keep things fair and transparent.
                                     </p>
 
                                     <div className="grid grid-cols-2 gap-3 max-w-md">

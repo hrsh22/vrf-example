@@ -1,17 +1,17 @@
-'use client';
-import { useAccount, useReadContract, useWriteContract, useConfig } from 'wagmi';
-import Wallet from '../wallet';
-import Header from './header';
-import NextImage from 'next/image';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { ASSETS } from './assets';
-import type { AssetKey } from './assets';
-import WheelCanvas from './components/WheelCanvas';
-import { DEFAULT_SEGMENTS, LABEL_TO_ASSET_KEY } from './constants';
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from '@/app/config';
-import { Randomness } from 'randomness-js';
-import { ethers, getBytes } from 'ethers';
-import { waitForTransactionReceipt } from '@wagmi/core';
+"use client";
+import { useAccount, useReadContract, useWriteContract, useConfig } from "wagmi";
+import Wallet from "../wallet";
+import Header from "./header";
+import NextImage from "next/image";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ASSETS } from "./assets";
+import type { AssetKey } from "./assets";
+import WheelCanvas from "./components/WheelCanvas";
+import { DEFAULT_SEGMENTS, LABEL_TO_ASSET_KEY } from "./constants";
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from "@/app/config";
+import { Randomness } from "randomness-js";
+import { ethers, getBytes } from "ethers";
+import { waitForTransactionReceipt } from "@wagmi/core";
 
 export default function SchwagRoulette() {
     const { isConnected } = useAccount();
@@ -33,7 +33,7 @@ export default function SchwagRoulette() {
     const { data: readData, refetch } = useReadContract({
         address: CONTRACT_ADDRESS,
         abi: CONTRACT_ABI,
-        functionName: 'randomness',
+        functionName: "randomness",
     }) as { data: bigint | undefined; refetch: () => Promise<{ data: unknown }> };
 
     // Write
@@ -54,13 +54,13 @@ export default function SchwagRoulette() {
             const receipt = await waitForTransactionReceipt(config, {
                 hash: txHash as `0x${string}`,
             });
-            if (receipt.status === 'success') {
+            if (receipt.status === "success") {
                 startPollingForRandomness();
             } else {
-                throw new Error('Transaction failed');
+                throw new Error("Transaction failed");
             }
         } catch {
-            setError('Transaction failed. Please try again.');
+            setError("Transaction failed. Please try again.");
             setIsSpinning(false);
             setTargetIndex(null);
             cleanup();
@@ -82,14 +82,14 @@ export default function SchwagRoulette() {
                 {
                     address: CONTRACT_ADDRESS,
                     abi: CONTRACT_ABI,
-                    functionName: 'generateWithDirectFunding',
+                    functionName: "generateWithDirectFunding",
                     args: [callbackGasLimit],
                     value: requestCallBackPrice,
                 },
                 {
                     onSuccess: handleTransactionSubmitted,
                     onError: () => {
-                        setError('Failed to initiate transaction. Please try again.');
+                        setError("Failed to initiate transaction. Please try again.");
                         setIsSpinning(false);
                         setTargetIndex(null);
                         cleanup();
@@ -97,7 +97,7 @@ export default function SchwagRoulette() {
                 }
             );
         } catch {
-            setError('Failed to generate random number. Please try again.');
+            setError("Failed to generate random number. Please try again.");
             setIsSpinning(false);
             setTargetIndex(null);
             cleanup();
@@ -112,8 +112,8 @@ export default function SchwagRoulette() {
             try {
                 const result = await refetch();
                 const valueBigInt = result?.data as bigint | undefined;
-                const value = valueBigInt ? valueBigInt.toString() : '';
-                if (value && value !== '0' && value !== initialRandomness.current) {
+                const value = valueBigInt ? valueBigInt.toString() : "";
+                if (value && value !== "0" && value !== initialRandomness.current) {
                     const bytes = getBytes(value);
                     if (bytes.length > 0) {
                         const index = bytes[0] % segments.length;
@@ -126,7 +126,7 @@ export default function SchwagRoulette() {
             }
             if (attempts >= maxAttempts) {
                 cleanup();
-                setError('Request timed out. Please try again.');
+                setError("Request timed out. Please try again.");
                 setIsSpinning(false);
                 setTargetIndex(null);
             }
@@ -162,9 +162,9 @@ export default function SchwagRoulette() {
 
     const isLossWinner = (prize: string | null): boolean => {
         if (!prize) return false;
-        return prize.toLowerCase().includes('better') ||
-            prize.toLowerCase().includes('try') ||
-            prize.toLowerCase().includes('no prize');
+        return prize.toLowerCase().includes("better") ||
+            prize.toLowerCase().includes("try") ||
+            prize.toLowerCase().includes("no prize");
     };
 
     const isLoss = isLossWinner(winner);
@@ -225,7 +225,7 @@ export default function SchwagRoulette() {
 
                                 {/* Right: Wheel & action */}
                                 <div className="relative">
-                                    <div className={`relative rounded-2xl bg-white/5 border border-white/10 p-4 md:p-5 shadow-xl backdrop-blur-md flex items-center justify-center min-h-[320px] ${isSpinning ? 'ring-2 ring-indigo-400/40' : 'hover:ring-1 hover:ring-white/10 transition'}`}>
+                                    <div className={`relative rounded-2xl bg-white/5 border border-white/10 p-4 md:p-5 shadow-xl backdrop-blur-md flex items-center justify-center min-h-[320px] ${isSpinning ? "ring-2 ring-indigo-400/40" : "hover:ring-1 hover:ring-white/10 transition"}`}>
                                         <WheelCanvas
                                             segments={segments}
                                             segmentAssetKeys={segmentAssetKeys}
@@ -239,9 +239,9 @@ export default function SchwagRoulette() {
                                         <button
                                             onClick={handleSpinClick}
                                             disabled={isSpinning}
-                                            className={`group relative mt-6 w-full md:w-auto px-10 py-3.5 rounded-xl font-bold text-lg transition-all will-change-transform ${isSpinning ? 'cursor-not-allowed' : 'hover:scale-[1.03] active:scale-[0.98]'} text-white shadow-[0_10px_30px_-10px_rgba(99,102,241,0.6)]`}
+                                            className={`group relative mt-6 w-full md:w-auto px-10 py-3.5 rounded-xl font-bold text-lg transition-all will-change-transform ${isSpinning ? "cursor-not-allowed" : "hover:scale-[1.03] active:scale-[0.98]"} text-white shadow-[0_10px_30px_-10px_rgba(99,102,241,0.6)]`}
                                         >
-                                            <span className={`absolute inset-0 rounded-xl ${isSpinning ? 'opacity-60' : 'opacity-90 group-hover:opacity-100'} bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600`} aria-hidden />
+                                            <span className={`absolute inset-0 rounded-xl ${isSpinning ? "opacity-60" : "opacity-90 group-hover:opacity-100"} bg-gradient-to-r from-indigo-600 via-violet-600 to-purple-600`} aria-hidden />
                                             <span className="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-indigo-400/40 via-violet-400/30 to-purple-400/40 blur-md opacity-60 group-hover:opacity-80 transition" aria-hidden />
                                             <span className="relative z-10 flex items-center justify-center gap-3">
                                                 {isSpinning ? (
@@ -269,7 +269,7 @@ export default function SchwagRoulette() {
                             {/* Win modal */}
                             {winner && !isLoss && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-                                    <div className={`relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-black/90 to-zinc-900/80 text-white shadow-2xl`}>
+                                    <div className={"relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-black/90 to-zinc-900/80 text-white shadow-2xl"}>
                                         <div className="absolute -top-24 -right-24 h-56 w-56 rounded-full bg-indigo-600/20 blur-3xl" aria-hidden />
                                         <div className="absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-purple-600/20 blur-3xl" aria-hidden />
                                         <div className="header border-b border-white/10 px-5 py-4">
@@ -307,7 +307,7 @@ export default function SchwagRoulette() {
                             {/* Loss modal */}
                             {winner && isLoss && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-                                    <div className={`relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-black/90 to-zinc-900/80 text-white shadow-2xl`}>
+                                    <div className={"relative w-full max-w-md overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-900/90 via-black/90 to-zinc-900/80 text-white shadow-2xl"}>
                                         <div className="absolute -top-24 -right-24 h-56 w-56 rounded-full bg-indigo-600/10 blur-3xl" aria-hidden />
                                         <div className="absolute -bottom-24 -left-24 h-56 w-56 rounded-full bg-purple-600/10 blur-3xl" aria-hidden />
                                         <div className="header border-b border-white/10 px-5 py-4">

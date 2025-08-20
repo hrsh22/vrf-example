@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ASSETS, type AssetKey } from '../assets';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ASSETS, type AssetKey } from "../assets";
 
-// Theme-forward, still colorful but cohesive with page (indigo/violet core + cool accents)
-const SEGMENT_COLORS = ['#4338CA', '#6D28D9', '#0EA5E9', '#10B981', '#F59E0B'];
+const SEGMENT_COLORS = ["#4338CA", "#6D28D9", "#0EA5E9", "#10B981", "#F59E0B"];
 
 type WheelCanvasProps = {
     segments: string[];
@@ -61,7 +60,7 @@ export default function WheelCanvas({
 
     const drawWheel = useCallback(
         (ctx: CanvasRenderingContext2D, angle: number) => {
-            const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+            const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
             const width = size;
             const height = size;
             const radius = (size / 2) * 0.92;
@@ -94,8 +93,8 @@ export default function WheelCanvas({
 
                 // overlay radial highlight for depth
                 const grad = ctx.createRadialGradient(0, 0, innerRingRadius * 0.4, 0, 0, radius);
-                grad.addColorStop(0, 'rgba(255,255,255,0.06)');
-                grad.addColorStop(1, 'rgba(255,255,255,0.015)');
+                grad.addColorStop(0, "rgba(255,255,255,0.06)");
+                grad.addColorStop(1, "rgba(255,255,255,0.015)");
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.arc(0, 0, radius, start, end);
@@ -105,7 +104,7 @@ export default function WheelCanvas({
 
                 // Icon in wedge
                 const assetKey = segmentAssetKeys[i];
-                const label = (segments[i] || '').trim();
+                const label = (segments[i] || "").trim();
                 if (assetKey) {
                     const img = imageCacheRef.current.get(assetKey);
                     if (img && img.complete && img.naturalWidth > 0) {
@@ -119,9 +118,9 @@ export default function WheelCanvas({
                         // soft backdrop for asset for legibility
                         ctx.beginPath();
                         ctx.arc(0, 0, imgSize * 0.65, 0, 2 * Math.PI);
-                        ctx.fillStyle = 'rgba(255,255,255,0.08)';
+                        ctx.fillStyle = "rgba(255,255,255,0.08)";
                         ctx.fill();
-                        ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+                        ctx.strokeStyle = "rgba(255,255,255,0.12)";
                         ctx.lineWidth = Math.max(1, imgSize * 0.06);
                         ctx.stroke();
                         ctx.drawImage(img, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
@@ -143,9 +142,9 @@ export default function WheelCanvas({
                     ctx.rotate(Math.PI / 2);
                     const iconSize = Math.min(size * 0.14, radius * 0.26);
                     const half = iconSize / 2;
-                    ctx.strokeStyle = 'rgba(124,58,237,0.9)'; // violet-600
+                    ctx.strokeStyle = "rgba(124,58,237,0.9)"; // violet-600
                     ctx.lineWidth = Math.max(2, iconSize * 0.12);
-                    ctx.lineCap = 'round';
+                    ctx.lineCap = "round";
                     ctx.beginPath();
                     ctx.moveTo(-half, -half);
                     ctx.lineTo(half, half);
@@ -160,7 +159,7 @@ export default function WheelCanvas({
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.lineTo(radius * Math.cos(end), radius * Math.sin(end));
-                ctx.strokeStyle = 'rgba(17,24,39,0.7)'; // slate-900 w/ alpha
+                ctx.strokeStyle = "rgba(17,24,39,0.7)"; // slate-900 w/ alpha
                 ctx.lineWidth = 2;
                 ctx.stroke();
                 ctx.restore();
@@ -179,8 +178,8 @@ export default function WheelCanvas({
             ctx.lineTo(pointerSize * 0.6, -radius - pointerSize * 0.2 - pointerOffset);
             ctx.lineTo(-pointerSize * 0.6, -radius - pointerSize * 0.2 - pointerOffset);
             ctx.closePath();
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = '#111827';
+            ctx.fillStyle = "#ffffff";
+            ctx.strokeStyle = "#111827";
             ctx.lineWidth = 2;
             ctx.fill();
             ctx.stroke();
@@ -192,7 +191,7 @@ export default function WheelCanvas({
             ctx.translate(width / 2, height / 2);
             ctx.beginPath();
             ctx.arc(0, 0, radius + 6, 0, 2 * Math.PI);
-            ctx.strokeStyle = '#111827';
+            ctx.strokeStyle = "#111827";
             ctx.lineWidth = 3;
             ctx.stroke();
             ctx.restore();
@@ -203,7 +202,7 @@ export default function WheelCanvas({
             ctx.translate(width / 2, height / 2);
             ctx.beginPath();
             ctx.arc(0, 0, outerAccentRadius, 0, 2 * Math.PI);
-            ctx.strokeStyle = 'rgba(99,102,241,0.35)'; // indigo tint
+            ctx.strokeStyle = "rgba(99,102,241,0.35)"; // indigo tint
             ctx.lineWidth = 2;
             ctx.stroke();
             ctx.restore();
@@ -214,13 +213,13 @@ export default function WheelCanvas({
             ctx.translate(width / 2, height / 2);
             const hubR = Math.max(12, size * 0.06);
             const hubGrad = ctx.createRadialGradient(0, 0, hubR * 0.2, 0, 0, hubR);
-            hubGrad.addColorStop(0, '#1f2937');
-            hubGrad.addColorStop(1, '#111827');
+            hubGrad.addColorStop(0, "#1f2937");
+            hubGrad.addColorStop(1, "#111827");
             ctx.fillStyle = hubGrad;
             ctx.beginPath();
             ctx.arc(0, 0, hubR, 0, 2 * Math.PI);
             ctx.fill();
-            ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+            ctx.strokeStyle = "rgba(255,255,255,0.12)";
             ctx.lineWidth = 1.5;
             ctx.stroke();
             ctx.restore();
@@ -249,10 +248,10 @@ export default function WheelCanvas({
         (ts: number) => {
             const canvas = canvasRef.current;
             if (!canvas) return;
-            const ctx = canvas.getContext('2d');
+            const ctx = canvas.getContext("2d");
             if (!ctx) return;
 
-            const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+            const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
             if (canvas.width !== size * dpr || canvas.height !== size * dpr) {
                 canvas.width = size * dpr;
                 canvas.height = size * dpr;
@@ -333,9 +332,9 @@ export default function WheelCanvas({
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (!ctx) return;
-        const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
+        const dpr = typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
         if (canvas.width !== size * dpr || canvas.height !== size * dpr) {
             canvas.width = size * dpr;
             canvas.height = size * dpr;
@@ -346,7 +345,7 @@ export default function WheelCanvas({
     return (
         <canvas
             ref={canvasRef}
-            style={{ width: size, height: size, display: 'block' }}
+            style={{ width: size, height: size, display: "block" }}
             aria-label="Roulette Wheel"
         />
     );
